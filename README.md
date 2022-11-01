@@ -17,15 +17,15 @@ pip install "git+https://github.com/pytorch/functorch.git@release/torch_1.10_pre
 ### Learning handcrafted transition model
 
 We consider transitions evolving as $s' \sim \mathbb{P}( \cdot | s, a)$ where
-$$
+```math
 \mathbb{P}(s' | s, a) = q(s') \cdot \exp (\langle \psi(s'), W_0 \phi(s, a) - Z_{s, a}(W)).
-$$
+```
 Here we consider 1d densities, thus $d_s = d_a = 1$.
 
 We call the density "CustomSinDensity" when the functions $q, \psi, \phi$ are:
-$$
+```math
 q(s') = -(s')^{\alpha} / \alpha, \quad \psi(s') = \sin (P \cdot s'), \quad \text{and } \phi(s, a) = [s, a].
-$$
+```
 
 Given a specific setting for $\alpha, P$, and a real-valued reward function 
 $r(s, a)$, the goal is to play actions that maximize rewards when states 
