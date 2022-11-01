@@ -1,0 +1,5 @@
+{
+  "inv_cdf_linspace_L": 1000,
+  "inv_cdf_dicts": [{}, {}, {}],
+  "inv_cdf_round_decimals": 2
+}

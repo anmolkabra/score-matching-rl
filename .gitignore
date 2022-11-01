@@ -1,3 +1,15 @@
+.idea/
+.ipynb_checkpoints/
+
+runs/
+plots/
+logs/
+
+# slurm
+slurm-*.out
+sbatch-script-*.out
+batch-commands-*.out
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
