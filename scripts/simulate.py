@@ -643,7 +643,7 @@ def train(
         args.tb_writer.add_scalar("avg_regret", avg_regret, k)
         args.tb_writer.add_scalar("avg_loss", avg_loss, k)
         with open(os.path.join(args.tb_log_dir, "results.csv"), "a") as f:
-            f.write(f"{k},{total_r:.0f},{avg_regret:.2e},{avg_loss:.2e}\n")
+            f.write(f"{k},{total_r:.10e},{avg_regret:.10e},{avg_loss:.10e}\n")
         with open(
             os.path.join(args.tb_log_dir, "planner_action_counts.csv"), "a"
         ) as f:
@@ -961,7 +961,7 @@ def main(args):
             ALPHA=args.env_custom_sin_ALPHA,
             noise_density_sampling_method=args.env_noise_density_sampling_method,
         )
-        sigma = args.sampling_noise_scale * np.array([1.0])  # TODO
+        sigma = args.sampling_noise_scale * np.array([1.0])
     else:
         raise ValueError(f"{args.env} not supported")
 

@@ -5,10 +5,16 @@
 #  fixed. This serves as a baseline on the achievable maximum rewards in this
 #  environment.
 
+if [[ -z "${SAMPLING_NOISE_SCALE}" ]]; then
+  sampling_noise_scale="1e-0"
+else
+  sampling_noise_scale="${SAMPLING_NOISE_SCALE}"
+fi
+
 mkdir -p logs
 
 for seed in 0 1 2 3 4; do
-  exp_name="simulate_custom_sin__sampl_custom_sin__baseline_self__seed${seed}"
+  exp_name="simulate_custom_sin__sampl_custom_sin__baseline_self_sigma${sampling_noise_scale}__seed${seed}"
   PYTHONPATH='.' python \
     scripts/simulate.py \
     --env_no_render \
@@ -18,6 +24,7 @@ for seed in 0 1 2 3 4; do
     --env_noise_density_sampling_method "inv_cdf" \
     --W_sm_lam 1e-4 \
     --sampling_density "custom_sin" \
+    --sampling_noise_scale "${sampling_noise_scale}" \
     --sampling_method "inv_cdf" \
     --baseline_nonlds \
     --baseline_self \

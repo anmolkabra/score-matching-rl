@@ -4,12 +4,16 @@
 #  Parameter W is learned with Score Matching on samples {(s_{t+1}, s_t, a_t)}_t.
 
 sampling_density="${SAMPLING_DENSITY}"
-sampling_noise_scale="${SAMPLING_NOISE_SCALE}"
+if [[ -z "${SAMPLING_NOISE_SCALE}" ]]; then
+  sampling_noise_scale="1e-0"
+else
+  sampling_noise_scale="${SAMPLING_NOISE_SCALE}"
+fi
 
 mkdir -p logs
 
 for seed in 0 1 2 3 4; do
-  exp_name="simulate_custom_sin__sampl_${sampling_density}__seed${seed}"
+  exp_name="simulate_custom_sin__sampl_${sampling_density}_sigma${sampling_noise_scale}__seed${seed}"
   PYTHONPATH='.' python \
     scripts/simulate.py \
     --env_no_render \

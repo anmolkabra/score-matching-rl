@@ -20,7 +20,9 @@ for env in envs:
         all_x = []
         all_count_plus_ones = []
         for seed in range(5):
-            exp_name = f"simulate_{env}__sampl_{sampling_method}__seed{seed}"
+            exp_name = (
+                f"simulate_{env}__sampl_{sampling_method}_sigma1e-0__seed{seed}"
+            )
             try:
                 df = pd.read_csv(f"runs/{exp_name}/planner_action_counts.csv")
             except:
@@ -57,3 +59,56 @@ for env in envs:
     plt.tight_layout()
     plt.savefig(f"notebooks/plots/custom_sin__planner_actions.png")
     plt.savefig(f"notebooks/plots/custom_sin__planner_actions.pdf")
+
+#### for poster, minor formatting differences
+sampling_methods = ["normal", "custom_sin"]
+labels = {
+    "normal": "LDS",
+    "custom_sin": "SMRL with given $\\mathcal{{P}}$",
+}
+fontsize = 24
+for env in envs:
+    fig, ax = plt.subplots(1, 1, figsize=(8, 4))
+    for sampling_method in sampling_methods:
+        all_x = []
+        all_count_plus_ones = []
+        for seed in range(5):
+            exp_name = (
+                f"simulate_{env}__sampl_{sampling_method}_sigma1e-0__seed{seed}"
+            )
+            try:
+                df = pd.read_csv(f"runs/{exp_name}/planner_action_counts.csv")
+            except:
+                continue
+            x = df["episode"].values
+            count_plus_ones = df["count_plus_ones"].values
+            all_x.append(x)
+            all_count_plus_ones.append(count_plus_ones)
+
+        all_x = np.concatenate(all_x)
+        all_count_plus_ones = np.concatenate(all_count_plus_ones)
+
+        marker = next(markers)
+        sns.lineplot(
+            x=all_x,
+            y=all_count_plus_ones,
+            label=f"{labels[sampling_method]}",
+            ax=ax,
+            marker=marker,
+            markersize=10,
+            alpha=0.5,
+        )
+
+    plt.xticks(fontsize=fontsize)
+    plt.yticks(fontsize=fontsize)
+    ax.xaxis.set_major_locator(plt.MaxNLocator(6))
+    ax.yaxis.set_major_locator(plt.MaxNLocator(6))
+
+    # ax.legend()
+    plt.legend([], [], frameon=False)
+    ax.set_ylabel("Count of +1 played", fontsize=fontsize)
+    ax.set_xlabel("Episode", fontsize=fontsize)
+
+    plt.tight_layout()
+    plt.savefig(f"notebooks/plots/poster__custom_sin__planner_actions.png")
+    plt.savefig(f"notebooks/plots/poster__custom_sin__planner_actions.pdf")
